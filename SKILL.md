@@ -126,6 +126,15 @@ for msg in messages.messages:
     print(f"{msg.subject} from {msg.from_}")
 ```
 
+```typescript
+const messages = await client.inboxes.messages.list("agent@agentmail.to", {
+  labels: ["unread", "important"]
+});
+for (const msg of messages.messages) {
+  console.log(`${msg.subject} from ${msg.from}`);
+}
+```
+
 ### 3. Update Labels on Message
 
 ```python
@@ -137,6 +146,13 @@ client.inboxes.messages.update(
 )
 ```
 
+```typescript
+await client.inboxes.messages.update("agent@agentmail.to", "msg_xxx", {
+  addLabels: ["processed"],
+  removeLabels: ["unread"]
+});
+```
+
 ### 4. List Threads Org-Wide
 
 ```python
@@ -145,6 +161,14 @@ all_threads = client.threads.list()
 
 # Or per inbox
 inbox_threads = client.inboxes.threads.list(inbox_id="agent@agentmail.to")
+```
+
+```typescript
+// Query all threads across all inboxes (for supervisor agents)
+const allThreads = await client.threads.list();
+
+// Or per inbox
+const inboxThreads = await client.inboxes.threads.list("agent@agentmail.to");
 ```
 
 ### 5. Send Attachment
@@ -166,6 +190,23 @@ client.inboxes.messages.send(
         "content_type": "application/pdf"
     }]
 )
+```
+
+```typescript
+import * as fs from "fs";
+
+const content = fs.readFileSync("report.pdf").toString("base64");
+
+await client.inboxes.messages.send("agent@agentmail.to", {
+  to: ["user@example.com"],
+  subject: "Report attached",
+  text: "Please see attached.",
+  attachments: [{
+    content,
+    filename: "report.pdf",
+    contentType: "application/pdf"
+  }]
+});
 ```
 
 ## Webhook Setup (Flask + ngrok)
@@ -207,7 +248,7 @@ def process_webhook(payload):
     event_type = payload["event_type"]
     if event_type == "message.received":
         message = payload["message"]
-        print(f"New email from {message['from_']}: {message['subject']}")
+        print(f"New email from {message['from']}: {message['subject']}")
         
         # Reply to the message
         client.inboxes.messages.reply(
@@ -337,15 +378,6 @@ webhook = client.webhooks.create(
     client_id="user-123-webhook"
 )
 ```
-
-### Email Deliverability
-
-1. **Warm-up inboxes**: Start with 10 emails/inbox on day 1, gradually increase
-2. **Diversify sending**: 100 emails from 100 inboxes > 10,000 from 1 inbox
-3. **Always send both HTML + text**: Improves deliverability
-4. **No images in first email**: Triggers spam filters
-5. **No links in first email**: Wait for reply, then send CTA
-6. **Use custom domains**: Better reputation control
 
 ### Webhook Handling
 

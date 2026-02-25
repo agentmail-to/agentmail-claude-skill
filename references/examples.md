@@ -56,7 +56,7 @@ def process_webhook(payload):
     
     prompt = f"""
     New email received:
-    From: {email["from_"]}
+    From: {email["from"]}
     Subject: {email["subject"]}
     Body: {email["text"]}
     """
@@ -184,7 +184,7 @@ def process(payload):
     message = payload["message"]
     subject = message.get("subject", "")
     text = message.get("text", "").lower()
-    from_email = message["from_"]
+    from_email = message["from"]
     
     # Parse event ID from subject (e.g., "Re: [event_123] Dinner Invitation")
     if "[event_" in subject:
@@ -479,7 +479,7 @@ app.post("/webhooks", async (req, res) => {
   const { event_type, message } = req.body;
   
   if (event_type === "message.received") {
-    await client.inboxes.messages.reply(message.inbox_id, message.message_id, {
+    await client.inboxes.messages.reply(message.inboxId, message.messageId, {
       text: "Thanks for your email!"
     });
   }

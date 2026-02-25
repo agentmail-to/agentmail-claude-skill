@@ -20,6 +20,14 @@ import { AgentMailClient } from "agentmail";
 const client = new AgentMailClient({ apiKey: "..." });
 ```
 
+> **Note:** Method signatures below use Python naming conventions (snake_case). In TypeScript, use camelCase for method names and request properties:
+> - Methods: `replyAll`, `getAttachment`, `getRaw`, `getZoneFile` (not `reply_all`, `get_attachment`, etc.)
+> - Properties: `clientId`, `displayName`, `pageToken`, `eventTypes`, `inboxId` (not `client_id`, `display_name`, etc.)
+> - List/query params are passed as a request object: `client.inboxes.list({ limit: 10, pageToken: "..." })`
+> - Create/update params are also a request object: `client.inboxes.create({ username: "...", clientId: "..." })`
+> - Path IDs remain positional: `client.inboxes.get("inbox_id")`, `client.inboxes.messages.get("inbox_id", "message_id")`
+> - Accessor: `client.apiKeys` (not `client.api_keys`)
+
 ## Inboxes
 
 | Method | Description |
@@ -149,6 +157,7 @@ const client = new AgentMailClient({ apiKey: "..." });
 | `client.webhooks.list(limit?, page_token?)` | List webhooks |
 | `client.webhooks.get(webhook_id)` | Get webhook |
 | `client.webhooks.create(url, event_types, pod_ids?, inbox_ids?, client_id?)` | Create webhook |
+| `client.webhooks.update(webhook_id, ...)` | Update webhook |
 | `client.webhooks.delete(webhook_id)` | Delete webhook |
 
 ### Create Webhook Parameters
@@ -260,7 +269,7 @@ async with client.websockets.connect() as socket:
 | `client.inboxes.drafts.get(inbox_id, draft_id)` | Get draft |
 | `client.inboxes.drafts.create(inbox_id, to?, cc?, bcc?, subject?, text?, html?, attachments?)` | Create draft |
 | `client.inboxes.drafts.update(inbox_id, draft_id, ...)` | Update draft |
-| `client.inboxes.drafts.send(inbox_id, draft_id)` | Send draft |
+| `client.inboxes.drafts.send(inbox_id, draft_id, add_labels?, remove_labels?)` | Send draft |
 | `client.inboxes.drafts.delete(inbox_id, draft_id)` | Delete draft |
 
 ## API Keys
@@ -276,7 +285,7 @@ async with client.websockets.connect() as socket:
 | Method | Description |
 |--------|-------------|
 | `client.metrics.list(start_timestamp, end_timestamp, event_types?)` | Get org metrics |
-| `client.inboxes.metrics.list(inbox_id, start_timestamp, end_timestamp, event_types?)` | Get inbox metrics |
+| `client.inboxes.metrics.get(inbox_id, start_timestamp, end_timestamp, event_types?)` | Get inbox metrics |
 
 ## Organizations
 
