@@ -479,7 +479,7 @@ app.post("/webhooks", async (req, res) => {
   const { event_type, message } = req.body;
   
   if (event_type === "message.received") {
-    await client.inboxes.messages.reply(message.inboxId, message.messageId, {
+    await client.inboxes.messages.reply(message.inbox_id, message.message_id, {
       text: "Thanks for your email!"
     });
   }
