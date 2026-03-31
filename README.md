@@ -1,82 +1,71 @@
 # AgentMail Claude Skill
 
-A Claude Skill that teaches Claude how to build email agents using the AgentMail API.
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
-## What is a Claude Skill?
+A [Claude Skill](https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/claude-skill) that teaches Claude how to build email agents using the [AgentMail](https://agentmail.to) API.
 
-A Claude Skill is a "skill pack" that helps Claude learn to use specific APIs/tools. The core is a `SKILL.md` file containing essential information, best practices, and code examples.
+Drop this into Claude Code, Cursor, or any Claude-powered coding tool and it instantly knows how to work with AgentMail — create inboxes, send emails, set up webhooks, build full email agent workflows.
 
-## Structure
+## What's Inside
 
 ```
 agentmail-claude-skill/
-├── SKILL.md              # Core skill file (~400 lines)
+├── SKILL.md              # Core skill file — everything Claude needs to know
 └── references/
     ├── api-reference.md  # Complete API method signatures
     ├── webhook-events.md # Webhook event types and payloads
-    └── examples.md       # Advanced agent patterns
+    └── examples.md       # Advanced agent patterns and recipes
 ```
 
-## What's Included
+### SKILL.md Covers
 
-### SKILL.md
-- Quick start (installation, initialization, first email)
-- Resource hierarchy (Organization → Pod → Inbox → Thread → Message)
-- Common workflows (send, reply, webhooks, websockets)
-- AI agent integration (agentmail-toolkit)
-- Best practices (idempotency, deliverability)
-- Critical gotchas
+- **Quick start** — installation, initialization, sending your first email
+- **Resource hierarchy** — Organization → Pod → Inbox → Thread → Message
+- **Common workflows** — send, reply, webhooks, websockets, attachments
+- **Framework integration** — using agentmail-toolkit with OpenAI, Vercel AI SDK, and MCP
+- **Best practices** — idempotency, deliverability, error handling
+- **Critical gotchas** — things that trip up first-time users
 
-### references/api-reference.md
-- All methods for: Inboxes, Messages, Threads, Webhooks, WebSockets, Domains, Pods, Drafts, API Keys, Metrics, Organizations
-- Parameter types and return values
-- Error types
+### Reference Files
 
-### references/webhook-events.md
-- All 7 event types with full payload examples
-- `message.received`, `message.sent`, `message.delivered`, `message.bounced`, `message.complained`, `message.rejected`, `domain.verified`
-
-### references/examples.md
-- Event-driven agent (Flask + ngrok)
-- WebSocket real-time agent
-- Multi-step workflow with state
-- Human-in-the-loop with drafts
-- Label-based workflow
-- Multi-tenant with pods
-- Attachment processing
-- TypeScript examples
-
-## Installation
-
-### For Personal Use
-Copy the skill to your Cursor skills directory:
-
-```bash
-cp -r agentmail-claude-skill ~/.cursor/skills/agentmail
-```
-
-### For Project Use
-Copy to your project's `.cursor/skills/` directory:
-
-```bash
-cp -r agentmail-claude-skill .cursor/skills/agentmail
-```
+- **api-reference.md** — every API method with parameters and return types
+- **webhook-events.md** — all webhook event types, payloads, and setup
+- **examples.md** — production agent patterns (sales agent, support agent, multi-agent systems)
 
 ## Usage
 
-Once installed, Claude will automatically use this skill when:
-- Building email automation
-- Creating AI email agents
-- Setting up webhooks for email notifications
-- Integrating email into AI workflows
-- Working with AgentMail, inboxes, or email agents
+### Claude Code
 
-## Resources
+```bash
+# Add to your project
+cp -r agentmail-claude-skill/.claude/skills/ .claude/skills/
+```
 
-- [AgentMail Documentation](https://docs.agentmail.to)
-- [AgentMail Console](https://console.agentmail.to)
-- [Python SDK](https://pypi.org/project/agentmail/)
-- [Node.js SDK](https://www.npmjs.com/package/agentmail)
+### Cursor
+
+Add the skill content to your `.cursorrules` or project instructions.
+
+### Manual
+
+Copy `SKILL.md` into your system prompt or project context when working with Claude on email agent features.
+
+## Example
+
+Once the skill is loaded, you can ask Claude:
+
+- *"Build me an email agent that monitors an inbox and auto-replies to support questions"*
+- *"Set up webhooks to get real-time notifications when my agent receives email"*
+- *"Create a sales outreach agent that sends personalized emails and tracks replies"*
+
+Claude will generate working code using the AgentMail SDK with correct patterns and best practices.
+
+## Links
+
+- [AgentMail Website](https://agentmail.to)
+- [API Documentation](https://docs.agentmail.to)
+- [AgentMail Toolkit](https://github.com/agentmail-to/agentmail-toolkit)
+- [Examples](https://github.com/agentmail-to/agentmail-examples)
+- [MCP Server](https://github.com/agentmail-to/agentmail-mcp)
 
 ## License
 
